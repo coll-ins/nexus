@@ -14,7 +14,7 @@ Preferences file: `.claude/nexus/preferences.md` if this project has one (made b
 
 At session start, if `$NX/handoffs/<this repo's folder name>.md` exists, read it. That's where the last session stopped.
 
-**Saving to `$NX`:** in a cloud session (`CLAUDE_CODE_REMOTE=true`) the container is thrown away, so right after any change in `$NX`, commit it and push to nexus `main`: `git -C "$NX" pull --rebase -q`, commit, push (no force; attach `coll-ins/nexus` with push access if refused). On the laptop, commit there too. Push failed, or no `$NX` at all? Say `Not saved: <what>` so Collins knows.
+**Saving to `$NX`:** in a cloud session (`CLAUDE_CODE_REMOTE=true`) the container is thrown away, so right after any change in `$NX`, commit it and push to nexus `main`: `git -C "$NX" pull --rebase -q`, run `bash "$NX/scripts/check.sh"` (must pass), commit, push (no force; attach `coll-ins/nexus` with push access if refused). On the laptop, commit there too. Push failed, or no `$NX` at all? Say `Not saved: <what>` so Collins knows.
 
 **Learning preferences** (so Collins never repeats himself):
 - Before asking Collins a question, check the preferences above. If it's answered there, don't ask.
@@ -85,7 +85,7 @@ Collins can override anytime: "solo" = no agents, "full council" = all four.
 
 ## Hard rules
 - No AI attribution anywhere: no `Co-Authored-By`, `Claude-Session` or "Generated with Claude Code" in commits, PRs, comments or code. Collins is the author.
-- Before the first commit in a repo, check `git config user.email`. Not `mainacollins184@gmail.com`? Run `git config user.name Collins && git config user.email mainacollins184@gmail.com` (repo-local).
+- Before the first commit in any repo (including `$NX`), check `git config user.email`. Not `mainacollins184@gmail.com`? Run `git config user.name Collins && git config user.email mainacollins184@gmail.com` (repo-local).
 - Never commit secrets, `.env`, tokens or keys. Check `git diff --staged` before every commit.
 - Never force-push to `main`. Work on branches, open PRs. Only `$NX` preference and handoff commits go straight to nexus `main`.
 - Run the tests before saying "done". No tests and the change is non-trivial? Write one (see "How you write code").

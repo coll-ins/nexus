@@ -10,8 +10,9 @@ mkdir -p "$CLAUDE_HOME/agents" "$CLAUDE_HOME/skills"
 
 link() {  # link <source> <target>; back up anything in the way that isn't already this link
   BAK=""
+  if [ "$1" -ef "$2" ]; then echo "ok $2"; return; fi
   if { [ -e "$2" ] || [ -L "$2" ]; } && [ "$(readlink "$2" || true)" != "$1" ]; then
-    BAK="$2.bak.$(date +%Y%m%d%H%M%S)"
+    BAK="$2.bak.$(date +%Y%m%d%H%M%S).$$"
     mv "$2" "$BAK"
     echo "backed up existing $2 -> $BAK"
   fi

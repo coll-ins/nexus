@@ -7,13 +7,19 @@ import sys
 
 target, source = sys.argv[1:3]
 settings = {}
-if os.path.exists(target):
-    with open(target) as f:
-        settings = json.load(f)  # invalid JSON aborts here, before anything is written
+if os.path.exists(target) and os.path.getsize(target) > 0:
+    try:
+        with open(target) as f:
+            settings = json.load(f)
+    except ValueError as e:
+        sys.exit(f"error: {target} isn't valid JSON ({e}); fix it, then re-run")
+    if not isinstance(settings, dict):
+        sys.exit(f"error: {target} must be a JSON object; fix it, then re-run")
 with open(source) as f:
     wanted = json.load(f)["attribution"]
 if settings.get("attribution") != wanted:
     settings["attribution"] = wanted
+    os.makedirs(os.path.dirname(os.path.abspath(target)), exist_ok=True)
     tmp = target + ".tmp"
     with open(tmp, "w") as f:
         json.dump(settings, f, indent=2)

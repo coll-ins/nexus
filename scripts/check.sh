@@ -71,6 +71,27 @@ echo '{"model": "x"}' > "$h/.claude/settings.json"; echo mine > "$h/dot/CLAUDE.m
 ln -s "$h/dot/CLAUDE.md" "$h/.claude/CLAUDE.md"; printf -- '- Old local rule.\n' > "$h/.claude/nexus/memory/preferences.md"
 HOME="$h" bash "$n/scripts/install.sh" >/dev/null || err "install.sh failed"
 [ ! -L "$h/.claude/settings.json" ] || err "install.sh symlinked settings.json"
+# breaker round 2: sync into ~/.claude refused, nothing written through links
+g="$tmp/g"; mkdir -p "$g/.claude"; ln -s "$n/CLAUDE.md" "$g/.claude/CLAUDE.md"
+size=$(wc -c < "$n/CLAUDE.md")
+HOME="$g" bash "$n/scripts/sync.sh" "$g" >/dev/null 2>&1 && err "sync.sh accepted ~ (global ~/.claude) as target"
+[ "$(wc -c < "$n/CLAUDE.md")" = "$size" ] || err "sync.sh wrote through a symlinked CLAUDE.md"
+# install from a repo that already lives at ~/.claude/nexus
+k="$tmp/k"; mkdir -p "$k/.claude"; cp -R "$n" "$k/.claude/nexus"
+HOME="$k" bash "$k/.claude/nexus/scripts/install.sh" >/dev/null 2>&1 || err "install.sh failed when run from ~/.claude/nexus"
+[ -f "$k/.claude/nexus/CLAUDE.md" ] && [ ! -L "$k/.claude/nexus" ] || err "install.sh moved/looped a repo at ~/.claude/nexus"
+# a project-controlled manifest can't delete outside agents/ and skills/
+echo keep > "$tmp/victim.txt"; echo '../../victim.txt' >> "$q/.claude/nexus/manifest"
+bash "$n/scripts/sync.sh" "$q" >/dev/null 2>&1
+[ -f "$tmp/victim.txt" ] || err "sync.sh deleted a file outside .claude via the manifest"
+# merge-attribution: bad settings.json is refused, never overwritten
+for bad in '[]' 'null' '{oops'; do
+  printf '%s' "$bad" > "$tmp/s.json"
+  python3 "$n/scripts/merge-attribution.py" "$tmp/s.json" "$n/.claude/settings.json" >/dev/null 2>&1 && err "merge-attribution accepted '$bad'"
+  [ "$(cat "$tmp/s.json")" = "$bad" ] || err "merge-attribution overwrote invalid settings '$bad'"
+done
+: > "$tmp/s.json"; python3 "$n/scripts/merge-attribution.py" "$tmp/s.json" "$n/.claude/settings.json" >/dev/null || err "merge-attribution failed on empty file"
+python3 "$n/scripts/merge-attribution.py" "$tmp/new/dir/s.json" "$n/.claude/settings.json" >/dev/null || err "merge-attribution failed on missing dir"
 python3 -c "import json,sys;d=json.load(open(sys.argv[1]));assert d['model']=='x' and d['attribution']['commit']==''" "$h/.claude/settings.json" || err "install.sh lost settings or attribution"
 ls "$h"/.claude/CLAUDE.md.bak.* >/dev/null 2>&1 || err "install.sh replaced a symlinked CLAUDE.md without backup"
 grep -qx -- '- Old local rule.' "$np" || err "install.sh stranded the old install's preferences"

@@ -9,6 +9,9 @@ PROJ="$(cd "${1:?usage: sync.sh <project-dir>}" && pwd)"
 PREFS="$NEXUS/memory/preferences.md"
 [ "$PROJ" != "$NEXUS" ] || { echo "error: target is the nexus repo itself" >&2; exit 1; }
 DEST="$PROJ/.claude"
+if [ -d "$HOME/.claude" ] && [ "$(cd "$DEST" 2>/dev/null && pwd -P)" = "$(cd "$HOME/.claude" && pwd -P)" ]; then
+  echo "error: $PROJ/.claude is your global ~/.claude; use install.sh for that" >&2; exit 1
+fi
 
 # 1. Refuse to clobber a project's own .claude/CLAUDE.md (before touching anything)
 if [ -f "$DEST/CLAUDE.md" ] && ! head -1 "$DEST/CLAUDE.md" | grep -qx '# NEXUS — Orchestrator'; then
@@ -44,6 +47,7 @@ fi
 
 # 3. Copy, pointing the preferences import at the in-repo copy.
 # Imports resolve relative to the importing file (.claude/CLAUDE.md), not the repo root.
+rm -f "$DEST/CLAUDE.md"  # never write through a symlink
 sed 's#@~/.claude/nexus/memory/preferences.md#@nexus/preferences.md#' \
   "$NEXUS/CLAUDE.md" > "$DEST/CLAUDE.md"
 cp "$PREFS" "$PROJ_PREFS"
@@ -63,13 +67,16 @@ fi
 while IFS= read -r f; do
   src="$NEXUS/.claude/$f"; dst="$DEST/$f"
   if [ -f "$dst" ] && ! cmp -s "$src" "$dst" && ! grep -qxF "$f" "$MANIFEST"; then
-    mv "$dst" "$dst.bak.$(date +%Y%m%d%H%M%S)"
+    mv "$dst" "$dst.bak.$(date +%Y%m%d%H%M%S).$$"
     echo "backed up project's own $dst"
   fi
+  [ ! -L "$dst" ] || rm -f "$dst"  # never write through a symlink
   mkdir -p "$(dirname "$dst")"
   cp "$src" "$dst"
 done < "$NEW"
 grep -vxFf "$NEW" "$MANIFEST" | while IFS= read -r f; do
+  case "$f" in agents/*|skills/*) ;; *) continue ;; esac  # manifest is project-controlled:
+  case "$f" in *..*) continue ;; esac                     # only delete inside agents/ and skills/
   rm -f "$DEST/$f" && echo "removed $f (dropped from Nexus)"
 done || true
 mv "$NEW" "$MANIFEST"
