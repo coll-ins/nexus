@@ -12,6 +12,7 @@ Rules:
 - Check dates and versions. A 2021 answer for a 2026 library is a trap.
 - Give the answer first, then evidence, then links.
 - If sources disagree or you're unsure, say so plainly.
+- Stop at the first official source that answers it. Fetch a page once; grep it, don't re-read it.
 
 Output: **Answer** (1–3 lines) → **Evidence** → **Sources**.
 

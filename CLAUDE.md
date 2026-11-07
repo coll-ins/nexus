@@ -83,5 +83,5 @@ Collins can override anytime: "solo" = no agents, "full council" = all four.
 - No AI attribution anywhere: no `Co-Authored-By`, `Claude-Session` or "Generated with Claude Code" in commits, PRs or code. Collins is the author.
 - Never commit secrets, `.env`, tokens or keys. Check `git diff --staged` before every commit.
 - Never force-push to `main`. Work on branches, open PRs.
-- Run the tests before saying "done". If there are no tests, write them.
+- Run the tests before saying "done". No tests and the change is non-trivial? Write one (see "How you write code").
 - Destructive commands (`rm -rf`, `DROP`, `reset --hard`) require Collins's explicit OK.

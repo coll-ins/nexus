@@ -4,30 +4,42 @@
 # and preferences Nexus learns are written back into this repo.
 set -euo pipefail
 NEXUS="$(cd "$(dirname "$0")/.." && pwd)"
+PREFS="$NEXUS/memory/preferences.md"
 CLAUDE_HOME="$HOME/.claude"
-mkdir -p "$CLAUDE_HOME/agents"
+mkdir -p "$CLAUDE_HOME/agents" "$CLAUDE_HOME/skills"
 
-link() {  # link <source> <target>; back up a real file that's in the way
-  if [ -e "$2" ] && [ ! -L "$2" ]; then
-    mv "$2" "$2.bak.$(date +%Y%m%d%H%M%S)"
-    echo "backed up existing $2"
+link() {  # link <source> <target>; back up anything in the way that isn't already this link
+  BAK=""
+  if { [ -e "$2" ] || [ -L "$2" ]; } && [ "$(readlink "$2" || true)" != "$1" ]; then
+    BAK="$2.bak.$(date +%Y%m%d%H%M%S)"
+    mv "$2" "$BAK"
+    echo "backed up existing $2 -> $BAK"
   fi
   ln -sfn "$1" "$2"
   echo "linked $2"
 }
 
 link "$NEXUS" "$CLAUDE_HOME/nexus"
+# An old real ~/.claude/nexus may hold rules learned before: merge them, don't strand them.
+if [ -n "$BAK" ] && [ -f "$BAK/memory/preferences.md" ]; then
+  old=$(grep -E '^- ' "$BAK/memory/preferences.md" | grep -vxFf "$PREFS" || true)
+  if [ -n "$old" ]; then
+    [ -z "$(tail -c1 "$PREFS")" ] || echo >> "$PREFS"
+    printf '%s\n' "$old" >> "$PREFS"
+    echo "merged $(printf '%s\n' "$old" | wc -l) rule(s) from the old install into $PREFS. Review and commit."
+  fi
+fi
 link "$NEXUS/CLAUDE.md" "$CLAUDE_HOME/CLAUDE.md"
 for a in "$NEXUS"/.claude/agents/*.md; do
   link "$a" "$CLAUDE_HOME/agents/$(basename "$a")"
 done
-mkdir -p "$CLAUDE_HOME/skills"
 for d in "$NEXUS"/.claude/skills/*/; do
   link "${d%/}" "$CLAUDE_HOME/skills/$(basename "$d")"
 done
-if [ -e "$CLAUDE_HOME/settings.json" ]; then
-  grep -q '"attribution"' "$CLAUDE_HOME/settings.json" || echo "add the attribution block from $NEXUS/.claude/settings.json to $CLAUDE_HOME/settings.json"
-else
-  link "$NEXUS/.claude/settings.json" "$CLAUDE_HOME/settings.json"
-fi
+
+# settings.json is a real file, not a link: Claude Code writes /config and /model
+# choices into it, and those must not land in the nexus repo.
+S="$CLAUDE_HOME/settings.json"
+[ "$(readlink "$S" || true)" != "$NEXUS/.claude/settings.json" ] || rm "$S"  # undo older installs
+python3 "$NEXUS/scripts/merge-attribution.py" "$S" "$NEXUS/.claude/settings.json"
 echo "Nexus installed. Restart Claude Code."
