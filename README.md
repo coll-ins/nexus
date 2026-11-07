@@ -17,8 +17,13 @@ Symlinks into `~/.claude/`, so `git pull` updates Nexus everywhere and learned p
 ## Cloud / phone sessions
 The cloud environment's setup script installs Nexus in every new session, in every repo, with nothing committed to the project:
 ```bash
-git clone -q --depth 50 https://github.com/coll-ins/nexus /root/nexus && bash /root/nexus/scripts/install.sh
-git config --global user.name Collins && git config --global user.email mainacollins184@gmail.com
+# Nexus (agent council) in every session. Never blocks session start.
+N="$HOME/nexus"
+if [ -d "$N/.git" ]; then git -C "$N" pull -q --ff-only || true
+else git clone -q --depth 50 https://github.com/coll-ins/nexus "$N" || true; fi
+[ -f "$N/scripts/install.sh" ] && bash "$N/scripts/install.sh" || echo "nexus install failed"
+git config --global user.name Collins
+git config --global user.email mainacollins184@gmail.com
 ```
 This needs the repo to stay **public** (setup scripts can't clone private repos).
 
