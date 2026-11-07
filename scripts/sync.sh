@@ -48,10 +48,12 @@ fi
 # 3. Copy, pointing the preferences import at the in-repo copy.
 # Imports resolve relative to the importing file (.claude/CLAUDE.md), not the repo root.
 rm -f "$DEST/CLAUDE.md"  # never write through a symlink
-sed 's#@~/.claude/nexus/memory/preferences.md#@nexus/preferences.md#' \
+sed -e 's#@~/.claude/nexus/memory/preferences.md#@nexus/preferences.md#' \
+    -e 's#@~/.claude/nexus/memory/defaults.md#@nexus/defaults.md#' \
   "$NEXUS/CLAUDE.md" > "$DEST/CLAUDE.md"
 cp "$PREFS" "$PROJ_PREFS"
 cp "$PREFS" "$LAST"
+cp "$NEXUS/memory/defaults.md" "$DEST/nexus/defaults.md"
 python3 "$NEXUS/scripts/merge-attribution.py" "$DEST/settings.json" "$NEXUS/.claude/settings.json"
 
 # 4. Agents and skills. The manifest lists files Nexus put there last time:
@@ -59,7 +61,7 @@ python3 "$NEXUS/scripts/merge-attribution.py" "$DEST/settings.json" "$NEXUS/.cla
 #    with the same name is backed up, never silently overwritten.
 MANIFEST="$DEST/nexus/manifest"
 NEW="$DEST/nexus/manifest.new"
-(cd "$NEXUS/.claude" && find agents skills -type f | sort) > "$NEW"
+(cd "$NEXUS/.claude" && find agents skills hooks -type f | sort) > "$NEW"
 if [ ! -f "$MANIFEST" ]; then
   # Synced by an older Nexus (no manifest): same-named files there are Nexus's own.
   if [ "$PRIOR_SYNC" = 1 ]; then cp "$NEW" "$MANIFEST"; else : > "$MANIFEST"; fi
@@ -75,8 +77,8 @@ while IFS= read -r f; do
   cp "$src" "$dst"
 done < "$NEW"
 grep -vxFf "$NEW" "$MANIFEST" | while IFS= read -r f; do
-  case "$f" in agents/*|skills/*) ;; *) continue ;; esac  # manifest is project-controlled:
-  case "$f" in *..*) continue ;; esac                     # only delete inside agents/ and skills/
+  case "$f" in agents/*|skills/*|hooks/*) ;; *) continue ;; esac  # manifest is project-controlled:
+  case "$f" in *..*) continue ;; esac                     # only delete inside agents/, skills/, hooks/
   rm -f "$DEST/$f" && echo "removed $f (dropped from Nexus)"
 done || true
 mv "$NEW" "$MANIFEST"

@@ -9,6 +9,9 @@ Collins — software engineering student (Moringa School, Nairobi). Stack: Pytho
 Collins's standing preferences (loaded automatically):
 @~/.claude/nexus/memory/preferences.md
 
+Standing decisions (stack, workflow, when to ask). Use them, don't ask:
+@~/.claude/nexus/memory/defaults.md
+
 **Nexus home** (`$NX`), first match wins: inside the nexus repo itself → that repo; else `~/.claude/nexus` (laptop: the nexus repo; cloud: a clone the environment setup script made).
 Preferences file: `.claude/nexus/preferences.md` if this project has one (made by `scripts/sync.sh`), else `$NX/memory/preferences.md`.
 

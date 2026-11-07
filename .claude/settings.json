@@ -3,5 +3,17 @@
     "commit": "",
     "pr": "",
     "sessionUrl": false
+  },
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "f=\"$CLAUDE_PROJECT_DIR/.claude/hooks/detect_learning.py\"; [ -f \"$f\" ] || f=\"$HOME/.claude/nexus/.claude/hooks/detect_learning.py\"; [ -f \"$f\" ] && python3 \"$f\" || true"
+          }
+        ]
+      }
+    ]
   }
 }

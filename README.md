@@ -7,6 +7,8 @@ Collins's agent council for Claude Code: one orchestrator (**Nexus**) + four spe
 - `.claude/skills/nexus-design/`: anti-slop frontend design (spacing, type, color, motion, banned AI tells). Loads only for UI work
 - `.claude/skills/fix-bug/`: root-cause bug fixing, loads only when there's a bug (or type `/fix-bug`)
 - `memory/preferences.md`: rules Nexus has learned about how Collins works (Nexus edits this)
+- `memory/defaults.md`: standing decisions (stack, workflow, when to ask) so Nexus stops asking
+- `.claude/hooks/detect_learning.py`: flags "always / never / from now on" messages so Nexus saves them
 
 ## Laptop: every repo, one command
 ```bash

@@ -29,8 +29,9 @@ echo "always-loaded CLAUDE.md: $words words"
 [ "$words" -le 1200 ] || err "CLAUDE.md over 1200 words: trim it"
 tmp=$(mktemp -d); trap 'rm -rf "$tmp"' EXIT
 if bash scripts/sync.sh "$tmp" >/dev/null; then
-  imp=$(sed -n 's/^@//p' "$tmp/.claude/CLAUDE.md")
-  [ -f "$tmp/.claude/$imp" ] || err "sync.sh: import '@$imp' doesn't resolve from .claude/CLAUDE.md"
+  for imp in $(sed -n 's/^@//p' "$tmp/.claude/CLAUDE.md"); do
+    [ -f "$tmp/.claude/$imp" ] || err "sync.sh: import '@$imp' doesn't resolve from .claude/CLAUDE.md"
+  done
 else err "sync.sh failed"; fi
 # Pull-back regressions, run on a throwaway copy of nexus
 n="$tmp/n"; p="$tmp/p"; mkdir -p "$n" "$p"
@@ -96,9 +97,20 @@ python3 -c "import json,sys;d=json.load(open(sys.argv[1]));assert d['model']=='x
 ls "$h"/.claude/CLAUDE.md.bak.* >/dev/null 2>&1 || err "install.sh replaced a symlinked CLAUDE.md without backup"
 grep -qx -- '- Old local rule.' "$np" || err "install.sh stranded the old install's preferences"
 [ -f "$h/.claude/nexus/memory/preferences.md" ] || err "install.sh: preferences import doesn't resolve"
+[ -f "$h/.claude/nexus/memory/defaults.md" ] || err "install.sh: defaults import doesn't resolve"
 before=$(find "$h/.claude" -name '*.bak.*' | wc -l)
 HOME="$h" bash "$n/scripts/install.sh" >/dev/null || err "install.sh re-run failed"
 [ "$(find "$h/.claude" -name '*.bak.*' | wc -l)" = "$before" ] || err "install.sh re-run made new backups"
+# hook: fires on standing preferences, stays quiet otherwise; install merges it once
+hk=.claude/hooks/detect_learning.py
+for m in "always use pytest" "from now on short replies" "never use tailwind"; do
+  echo "{\"prompt\":\"$m\"}" | python3 "$hk" | grep -q nexus || err "hook missed: $m"
+done
+for m in "fix the navbar" "never mind, do X" "can you stop the server"; do
+  [ -z "$(echo "{\"prompt\":\"$m\"}" | python3 "$hk")" ] || err "hook false positive: $m"
+done
+python3 -c "import json,sys;d=json.load(open(sys.argv[1]));c=[h['command'] for g in d['hooks']['UserPromptSubmit'] for h in g['hooks']];assert len(c)==1,c" "$h/.claude/settings.json" || err "install.sh didn't merge the hook exactly once"
+grep -q '^@~/.claude/nexus/memory/defaults.md$' CLAUDE.md || err "CLAUDE.md: defaults import missing"
 python3 -c "import json;json.load(open('.claude/settings.json'))" || err "settings.json invalid"
 # grep -c, not -q: -q exits early, git log dies of SIGPIPE and pipefail hides the match
 if [ "$(git log --format='%an %ae %cn %ce' | grep -ciE 'anthropic|^claude | claude ')" != 0 ]; then err "commit authored/committed as Claude: rewrite as Collins"; fi
