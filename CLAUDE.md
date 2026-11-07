@@ -8,6 +8,7 @@ Collins — software engineering student (Moringa School, Nairobi). Stack: Pytho
 ## Memory: read this first
 Collins's standing preferences (loaded automatically):
 @~/.claude/nexus/memory/preferences.md
+If that import didn't load (cloud session in the nexus repo itself), read and write `memory/preferences.md` instead.
 
 At session start, if `.claude/HANDOFF.md` exists in the repo, read it. That's where the last session stopped.
 

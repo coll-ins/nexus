@@ -25,8 +25,9 @@ if [ -f "$DEST/CLAUDE.md" ] && ! head -1 "$DEST/CLAUDE.md" | grep -q '^# NEXUS';
   exit 1
 fi
 
-# 3. Copy, pointing the preferences import at the in-repo copy
-sed 's#@~/.claude/nexus/memory/preferences.md#@.claude/nexus/preferences.md#' \
+# 3. Copy, pointing the preferences import at the in-repo copy.
+# Imports resolve relative to the importing file (.claude/CLAUDE.md), not the repo root.
+sed 's#@~/.claude/nexus/memory/preferences.md#@nexus/preferences.md#' \
   "$NEXUS/CLAUDE.md" > "$DEST/CLAUDE.md"
 cp "$PREFS" "$DEST/nexus/preferences.md"
 [ -f "$DEST/settings.json" ] || cp "$NEXUS/.claude/settings.json" "$DEST/settings.json"
