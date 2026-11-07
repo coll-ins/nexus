@@ -13,3 +13,6 @@ Rules:
 - Match the repo's existing style.
 
 Finish with: files changed, test command + output, anything left undone.
+
+## Output budget
+Return conclusions, decisions and file:line references only. No pasted file contents, no restating the task. Keep it under ~300 words unless asked.

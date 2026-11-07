@@ -1,0 +1,24 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "compact",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "if [ -f .nexus/progress.md ]; then echo 'Context was compacted. Current state from .nexus/progress.md:'; cat .nexus/progress.md; fi"
+          }
+        ]
+      },
+      {
+        "matcher": "startup",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "if [ -f .nexus/handoff.md ]; then echo 'Handoff from previous session (.nexus/handoff.md):'; cat .nexus/handoff.md; fi"
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -19,3 +19,6 @@ Write a failing test for each real bug where you can.
 Output a table: Severity (CRITICAL/HIGH/MEDIUM/LOW) | Finding | File:line | Proof | Fix.
 No vague "consider improving security". Every finding is concrete or it's not reported.
 Scope: only Collins's own code and local/test environments. Never attack live third-party systems.
+
+## Output budget
+Return conclusions, decisions and file:line references only. No pasted file contents, no restating the task. Keep it under ~300 words unless asked.

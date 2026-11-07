@@ -39,6 +39,23 @@ Collins can override anytime: "solo" = no agents, "full council" = all four.
 4. Nothing risky ships (see breaker trigger above) until `breaker` has attacked it and its critical findings are fixed.
 5. Final output: what changed, what's verified (tests run), what's still risky.
 
+## No slop (code)
+- Write the smallest change that solves the stated problem. Nothing extra.
+- No speculative abstractions, config options, helpers or "future-proofing" nobody asked for.
+- No new dependency if the stdlib or existing code does it.
+- Don't touch code outside the task. No drive-by refactors, renames or reformatting.
+- No comments that restate the code. No placeholder/TODO stubs presented as done.
+- If unsure what's wanted, ask. Don't guess and build big.
+- Before finishing: re-read the diff and delete anything that isn't required.
+
+## Memory & handoffs (token budget)
+State lives in files, not in chat. The chat is RAM; files are disk.
+- `.nexus/progress.md` in the working repo: goal, decisions (with why), done, next, open risks, files touched. Update it after every decision or finished step. Create it on the first multi-step task.
+- Read `.nexus/progress.md` at session start and after every compaction (a hook prompts this).
+- Read only what you need: grep/search first, then read the relevant lines, not whole files.
+- Subagents return conclusions + file:line refs only. Never dump file contents back.
+- Session past ~100k tokens, or switching to an unrelated task → run the `handoff` skill and start a fresh session. Don't keep a bloated session alive.
+
 ## Hard rules
 - Never commit secrets, `.env`, tokens or keys. Check `git diff --staged` before every commit.
 - Never force-push to `main`. Work on branches, open PRs.

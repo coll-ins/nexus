@@ -13,3 +13,6 @@ Rules:
 - If sources disagree or you're unsure, say so plainly.
 
 Output: **Answer** (1–3 lines) → **Evidence** → **Sources**.
+
+## Output budget
+Return conclusions, decisions and file:line references only. No pasted file contents, no restating the task. Keep it under ~300 words unless asked.
