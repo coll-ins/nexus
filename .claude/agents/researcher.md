@@ -13,3 +13,5 @@ Rules:
 - If sources disagree or you're unsure, say so plainly.
 
 Output: **Answer** (1–3 lines) → **Evidence** → **Sources**.
+
+Max 20 lines. Quote at most one short snippet per source.

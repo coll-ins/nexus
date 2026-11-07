@@ -13,3 +13,5 @@ Rules:
 - Match the repo's existing style.
 
 Finish with: files changed, test command + output, anything left undone.
+
+Report in 30 lines or fewer. Show only the last lines of test output that prove pass or fail.
