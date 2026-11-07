@@ -14,7 +14,15 @@ git clone https://github.com/coll-ins/nexus ~/nexus && ~/nexus/scripts/install.s
 ```
 Symlinks into `~/.claude/`, so `git pull` updates Nexus everywhere and learned preferences land back in this repo. Commit `memory/` now and then. Anything in the way gets backed up (`*.bak.<time>`), not deleted; rules from an old `~/.claude/nexus` are merged in. `settings.json` stays your own file: only the `attribution` block is set.
 
-## Cloud / phone sessions (they only see the repo)
+## Cloud / phone sessions
+The cloud environment's setup script installs Nexus in every new session, in every repo, with nothing committed to the project:
+```bash
+git clone -q --depth 50 https://github.com/coll-ins/nexus /root/nexus && bash /root/nexus/scripts/install.sh
+git config --global user.name Collins && git config --global user.email mainacollins184@gmail.com
+```
+This needs the repo to stay **public** (setup scripts can't clone private repos).
+
+Want Nexus committed inside a project instead (visible to anyone who reads that repo)?
 ```bash
 ~/nexus/scripts/sync.sh ~/code/connect   # then commit .claude/ in that repo
 ```
@@ -24,7 +32,7 @@ Re-run to update. Preferences learned or removed inside that repo are merged bac
 Zip each skill folder (`cd .claude/skills && zip -r fix-bug.zip fix-bug`) and upload it in claude.ai: Settings → Capabilities → Skills. Re-upload after changing a skill.
 
 ## Handoffs
-Unfinished work gets a `.claude/HANDOFF.md` in the project (max 25 lines, overwritten each time, deleted when done). The next session reads it first.
+Unfinished work gets `handoffs/<project>.md` in this repo, never in the project (max 25 lines, overwritten each time, deleted when done). The next session reads it first. Cloud sessions push it (and new preferences) straight to `main`.
 
 ## Changing Nexus
 Run `scripts/check.sh` before committing.

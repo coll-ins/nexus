@@ -39,9 +39,9 @@ np="$n/memory/preferences.md"; pp="$p/.claude/nexus/preferences.md"
 bash "$n/scripts/sync.sh" "$p" >/dev/null
 first=$(grep -m1 '^- ' "$np")
 grep -vxF -- "$first" "$np" > "$np.t" && mv "$np.t" "$np"      # Collins deletes a rule in nexus
-sed -i "s/^- No AI attribution.*/- Replaced rule./" "$pp"        # project replaces a rule
+sed "s/^- No AI attribution.*/- Replaced rule./" "$pp" > "$pp.t" && mv "$pp.t" "$pp"   # project replaces a rule
 printf -- '- Added rule.' >> "$pp"                               # no trailing newline
-truncate -s -1 "$np"
+printf '%s' "$(cat "$np")" > "$np.t" && mv "$np.t" "$np"        # strip trailing newline (portable)
 bash "$n/scripts/sync.sh" "$p" >/dev/null || err "sync.sh resync failed"
 grep -qxF -- "$first" "$np" && err "sync.sh resurrected a rule deleted in nexus"
 grep -q 'No AI attribution' "$np" && err "sync.sh kept a rule the project replaced"
@@ -79,6 +79,9 @@ before=$(find "$h/.claude" -name '*.bak.*' | wc -l)
 HOME="$h" bash "$n/scripts/install.sh" >/dev/null || err "install.sh re-run failed"
 [ "$(find "$h/.claude" -name '*.bak.*' | wc -l)" = "$before" ] || err "install.sh re-run made new backups"
 python3 -c "import json;json.load(open('.claude/settings.json'))" || err "settings.json invalid"
-if git log --format=%B | grep -qiE 'co-authored-by: claude|claude-session|generated with \[?claude'; then err "AI attribution found in git history"; fi
+# grep -c, not -q: -q exits early, git log dies of SIGPIPE and pipefail hides the match
+if [ "$(git log --format='%an %ae %cn %ce' | grep -ciE 'anthropic|^claude | claude ')" != 0 ]; then err "commit authored/committed as Claude: rewrite as Collins"; fi
+grep -q 'HANDOFF.md' CLAUDE.md README.md && err "handoffs belong in nexus handoffs/, not the project"
+if [ "$(git log --format=%B | grep -ciE 'co-authored-by: claude|claude-session|generated with \[?claude')" != 0 ]; then err "AI attribution found in git history"; fi
 [ "$fail" = 0 ] && echo "all checks passed"
 exit $fail
