@@ -1,4 +1,4 @@
-Goal: Connect audit + hardening; Collins decides the next task. Branch claude/nexus-connect-audit-fixes-lmjp0w, pushed, CI green (run #38).
+Goal: Connect audit + hardening; Collins decides the next task. Branch claude/nexus-connect-audit-fixes-lmjp0w, CI green (run #38), PR #2 open.
 
 Done
 - Round 1 (5091dfd): 15 fixes (operator route scope, refund-restore race, parcel refund, currency, staff guards, NUM_PROXIES required, admin Users page, login 500 on fresh DB, UI bugs); full-stack CI job.
@@ -7,7 +7,7 @@ Done
 - Audit doc: https://claude.ai/artifact/QHxvLJDaN51TdxznnzFxPx (both rounds).
 
 Next
-- Ask Collins what's next; no PR opened yet (open one only if he asks; squash-merge with his own title, branch name has "claude").
+- Collins reviews + squash-merges PR #2 (https://github.com/coll-ins/connect/pull/2) under his own title.
 - Collins: set NUM_PROXIES=1 on Render before deploy (prod refuses to start without it).
 - Collins: one Paystack test-mode KES payment to confirm webhook carries currency.
 - Pending OK: rewrite main to drop 2 "Co-authored-by: Copilot" trailers (a2a1ebb, e27888e) = force-push main.
