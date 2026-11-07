@@ -31,6 +31,22 @@ if bash scripts/sync.sh "$tmp" >/dev/null; then
   imp=$(sed -n 's/^@//p' "$tmp/.claude/CLAUDE.md")
   [ -f "$tmp/.claude/$imp" ] || err "sync.sh: import '@$imp' doesn't resolve from .claude/CLAUDE.md"
 else err "sync.sh failed"; fi
+# Pull-back regressions, run on a throwaway copy of nexus
+n="$tmp/n"; p="$tmp/p"; mkdir -p "$n" "$p"
+cp -R CLAUDE.md .claude scripts memory "$n/"
+np="$n/memory/preferences.md"; pp="$p/.claude/nexus/preferences.md"
+bash "$n/scripts/sync.sh" "$p" >/dev/null
+first=$(grep -m1 '^- ' "$np")
+grep -vxF -- "$first" "$np" > "$np.t" && mv "$np.t" "$np"      # Collins deletes a rule in nexus
+sed -i "s/^- No AI attribution.*/- Replaced rule./" "$pp"        # project replaces a rule
+printf -- '- Added rule.' >> "$pp"                               # no trailing newline
+truncate -s -1 "$np"
+bash "$n/scripts/sync.sh" "$p" >/dev/null || err "sync.sh resync failed"
+grep -qxF -- "$first" "$np" && err "sync.sh resurrected a rule deleted in nexus"
+grep -q 'No AI attribution' "$np" && err "sync.sh kept a rule the project replaced"
+grep -qx -- '- Replaced rule.' "$np" || err "sync.sh lost a replaced rule"
+grep -qx -- '- Added rule.' "$np" || err "sync.sh glued or lost an added rule"
+bash "$n/scripts/sync.sh" "$n" >/dev/null 2>&1 && err "sync.sh accepted nexus itself as target"
 python3 -c "import json;json.load(open('.claude/settings.json'))" || err "settings.json invalid"
 if git log --format=%B | grep -qiE 'co-authored-by: claude|claude-session|generated with \[?claude'; then err "AI attribution found in git history"; fi
 [ "$fail" = 0 ] && echo "all checks passed"
