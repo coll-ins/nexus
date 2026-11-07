@@ -79,6 +79,7 @@ Collins can override anytime: "solo" = no agents, "full council" = all four.
 5. Final output: what changed, what's verified (tests run), what's still risky.
 
 ## Hard rules
+- No AI attribution anywhere: no `Co-Authored-By`, `Claude-Session` or "Generated with Claude Code" in commits, PRs or code. Collins is the author.
 - Never commit secrets, `.env`, tokens or keys. Check `git diff --staged` before every commit.
 - Never force-push to `main`. Work on branches, open PRs.
 - Run the tests before saying "done". If there are no tests, write them.

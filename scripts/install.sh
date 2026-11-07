@@ -25,4 +25,9 @@ mkdir -p "$CLAUDE_HOME/skills"
 for d in "$NEXUS"/.claude/skills/*/; do
   link "${d%/}" "$CLAUDE_HOME/skills/$(basename "$d")"
 done
+if [ -e "$CLAUDE_HOME/settings.json" ]; then
+  grep -q '"attribution"' "$CLAUDE_HOME/settings.json" || echo "add the attribution block from $NEXUS/.claude/settings.json to $CLAUDE_HOME/settings.json"
+else
+  link "$NEXUS/.claude/settings.json" "$CLAUDE_HOME/settings.json"
+fi
 echo "Nexus installed. Restart Claude Code."
