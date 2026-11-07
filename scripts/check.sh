@@ -26,6 +26,11 @@ dups=$(grep '^- ' memory/preferences.md | sort | uniq -d)
 words=$(cat CLAUDE.md | wc -w)
 echo "always-loaded CLAUDE.md: $words words"
 [ "$words" -le 1200 ] || err "CLAUDE.md over 1200 words: trim it"
+tmp=$(mktemp -d); trap 'rm -rf "$tmp"' EXIT
+if bash scripts/sync.sh "$tmp" >/dev/null; then
+  imp=$(sed -n 's/^@//p' "$tmp/.claude/CLAUDE.md")
+  [ -f "$tmp/.claude/$imp" ] || err "sync.sh: import '@$imp' doesn't resolve from .claude/CLAUDE.md"
+else err "sync.sh failed"; fi
 python3 -c "import json;json.load(open('.claude/settings.json'))" || err "settings.json invalid"
 if git log --format=%B | grep -qiE 'co-authored-by: claude|claude-session|generated with \[?claude'; then err "AI attribution found in git history"; fi
 [ "$fail" = 0 ] && echo "all checks passed"
