@@ -1,4 +1,4 @@
-Goal: Connect merged to main (PR #3 789442c, #4 7363b61); prod backend NOT deployed yet (Render).
+Goal: Connect live in prod (PR #3, #4 deployed on Render + Vercel, verified 7 Nov).
 
 Done
 - One design system for all roles: src/styles/tokens.css (+ touch.css), Barlow, one accent; all CSS normalized.
@@ -8,7 +8,8 @@ Done
 - Tests: backend 839, e2e 56, fullstack 9 pass. Audit + recorded demo: https://claude.ai/artifact/VsV3pjXXSiQ4bJ2DRkgPMw
 
 Next
-- Collins: Render Events -> why backend didn't deploy (check NUM_PROXIES>=1, auto-deploy); set ADMIN_PHONE/ADMIN_PASSWORD/CRON_SECRET + daphne start command with ensure_superuser; verify /api/system/trip-simulations/active/ returns 403 not 404.
+- Collins: log in with ADMIN_PHONE, then remove ADMIN_PASSWORD on Render.
+- Verify NUM_PROXIES (1 vs 2 behind Cloudflare) once an IP-echo check exists.
 - Collins: GitHub Actions var CONNECT_API_URL + secret CRON_SECRET (scheduled-jobs.yml).
 - Supermetro + Latema have 0 trips in prod: manager creates trips or service templates.
 - Collins: one Paystack KES test payment in prod; schedule the cleanup cron call.
