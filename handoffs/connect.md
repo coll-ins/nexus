@@ -1,20 +1,18 @@
-Goal: Connect frontend polish pass; Collins reviews branch ccr-73f405e6-xzh3og (2 commits on main d0e1a95), no PR yet.
+Goal: Connect launch-ready on branch ccr-73f405e6-xzh3og (pushed, 9db4e0c); Collins merges, recovers superuser, demos.
 
 Done
-- 777cc2c + eb81b21: all 69 screens x 6 roles crawled at 390/768/1440 (touch below 1024) against real API; 0 JS/API errors, 0 overflow.
-- Fixed: auditor incidents now real (/api/bookings/incidents/), manager settings page, wrong empty-state copy, phone padding on manager svc pages, passenger map empty state, icon/text stacking (.btn inline-flex), admin unknown URL redirect, duplicate titles.
-- Caps labels -> sentence case, 11px floor, emoji -> lucide, 44px touch targets (src/styles/touch.css), input labels.
-- Tests: e2e 58/58, fullstack 9/9 (all-screens now covers real auditor + manager pages).
+- One design system for all roles: src/styles/tokens.css (+ touch.css), Barlow, one accent; all CSS normalized.
+- Simulate real trips: backend/companies/simulation.py, Admin > Trips button; routes w/o line drive stop to stop.
+- ensure_superuser (ADMIN_PHONE/ADMIN_PASSWORD) runs in procfile start; login lockout counts failures only.
+- Breaker x2: 0 critical/high; all mediums fixed with tests. Real names to staff; booking modal pickup fixed.
+- Tests: backend 839, e2e 56, fullstack 9 pass. Audit + recorded demo: https://claude.ai/artifact/VsV3pjXXSiQ4bJ2DRkgPMw
 
 Next
-- Collins: review branch; open PR only if he asks (squash-merge, his title).
-- Collins: set NUM_PROXIES=1 on Render before deploy.
-- Collins: one Paystack test-mode KES payment to confirm webhook carries currency.
-- Pending OK: rewrite main to drop 2 "Co-authored-by: Copilot" trailers (a2a1ebb, e27888e) = force-push main.
-- Later: seed_demo has no company accepting bus hire/parcels, so those passenger flows demo as empty.
-- Later: DriverDashboard.jsx (868 lines) is unused; navigationConfig.js non-passenger entries are dead.
+- Collins: merge branch to main (open PR only if he asks), set ADMIN_PHONE/ADMIN_PASSWORD + Render start command (in audit), deploy, log in, remove ADMIN_PASSWORD.
+- Collins: one Paystack KES test payment in prod; schedule the cleanup cron call.
+- Pending OK: force-push main to drop 2 Copilot trailers (a2a1ebb, e27888e).
+- Later: Redis cache for login counters; SMS OTP at signup; delete unused DriverDashboard.jsx.
 
 Gotchas
-- Backend venv must be python3.12. Login throttle 10/hour/account: crawls need cache.clear() via manage.py shell.
-- Playwright in cloud: local config with launchOptions.executablePath=/opt/pw-browsers/chromium (don't commit).
-- Full-stack tests need ports 8000/5174 free.
+- seed_demo is dev-only; prod simulation needs a real trip with driver, set to Boarding for passenger tracking.
+- Cloud Playwright: executablePath /opt/pw-browsers/chromium in a local config; login throttle needs cache.clear() between crawls.
