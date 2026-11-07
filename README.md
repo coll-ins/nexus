@@ -13,3 +13,9 @@ cp ~/nexus/.claude/agents/*.md ~/.claude/agents/   # agents available in every p
 cp ~/nexus/CLAUDE.md ~/.claude/CLAUDE.md           # Nexus becomes your global orchestrator
 ```
 Phone / cloud sessions: copy `.claude/agents/` and `CLAUDE.md` into each repo you work on from the Claude app, since cloud sessions only see the repo.
+
+## Install (makes Nexus global)
+```bash
+git clone https://github.com/coll-ins/nexus ~/nexus && ~/nexus/install.sh
+```
+Brain lives in `brain/`. Nexus updates it as it learns; commit it now and then.
