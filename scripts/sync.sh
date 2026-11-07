@@ -30,4 +30,5 @@ sed 's#@~/.claude/nexus/memory/preferences.md#@.claude/nexus/preferences.md#' \
   "$NEXUS/CLAUDE.md" > "$DEST/CLAUDE.md"
 cp "$PREFS" "$DEST/nexus/preferences.md"
 cp "$NEXUS"/.claude/agents/*.md "$DEST/agents/"
+mkdir -p "$DEST/skills" && cp -R "$NEXUS"/.claude/skills/. "$DEST/skills/"
 echo "synced Nexus into $PROJ/.claude. Commit it in that repo."

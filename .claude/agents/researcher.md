@@ -1,6 +1,7 @@
 ---
 name: researcher
 description: Looks things up — official docs, library comparisons, error messages, prior art. Use when the answer depends on facts outside the repo.
+model: haiku
 tools: Read, WebSearch, WebFetch
 ---
 

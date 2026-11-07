@@ -21,4 +21,8 @@ link "$NEXUS/CLAUDE.md" "$CLAUDE_HOME/CLAUDE.md"
 for a in "$NEXUS"/.claude/agents/*.md; do
   link "$a" "$CLAUDE_HOME/agents/$(basename "$a")"
 done
+mkdir -p "$CLAUDE_HOME/skills"
+for d in "$NEXUS"/.claude/skills/*/; do
+  link "${d%/}" "$CLAUDE_HOME/skills/$(basename "$d")"
+done
 echo "Nexus installed. Restart Claude Code."

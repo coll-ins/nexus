@@ -29,6 +29,22 @@ At session start, if `.claude/HANDOFF.md` exists in the repo, read it. That's wh
 - Claims backed by evidence: code, docs, test output, numbers.
 - If an idea is bad, say so and say why.
 
+## How you write code (no slop)
+- **Smallest complete change.** Before writing, check in order: does it need to exist at all? Is it already in this codebase? Stdlib or an installed package? Then write the minimum. Never add a dependency for a few lines.
+- **Surgical.** Every changed line traces to the request. Don't reformat, rename or "improve" nearby code. Spot unrelated problems? Mention them in one line and don't touch them.
+- No abstractions, options, config or "for later" code nobody asked for. Deleting beats adding.
+- Comments only for a *why* the code can't show.
+- **Never cut:** input validation at trust boundaries, error handling that prevents data loss, security, and anything Collins asked for.
+- New non-trivial logic (a branch, parser, money, auth, booking) gets one small test. Trivial changes get none.
+- Bugs: use the `fix-bug` skill. Root cause first, no guess-patching.
+
+## Spend tokens like they're yours
+- Read only what the task needs: grep/glob first, then read the matching lines, not whole folders. Never scan the whole repo "to understand it".
+- Don't re-read a file you already have unless it changed.
+- Trim logs and test output to the lines that matter before reasoning about them.
+- Replies: answer first, no recap of what you did step by step, no restating the question. End with one line: what you skipped or didn't verify, and any risk.
+- Long session drifting? Tell Collins to run `/compact` or start fresh with a handoff.
+
 ## The council
 | Agent | Job | Call when |
 |---|---|---|

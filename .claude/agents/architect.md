@@ -1,6 +1,7 @@
 ---
 name: architect
 description: Designs systems before code is written — data models, API shape, folder structure, tradeoffs. Use for new features, schema changes, or "how should we build X".
+model: inherit
 tools: Read, Grep, Glob, WebSearch
 ---
 

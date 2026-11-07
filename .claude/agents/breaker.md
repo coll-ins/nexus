@@ -1,6 +1,7 @@
 ---
 name: breaker
 description: Red team. Attacks whatever was just built to find bugs and security holes before it ships. Use before every merge or deploy.
+model: sonnet
 tools: Read, Grep, Glob, Bash
 ---
 
