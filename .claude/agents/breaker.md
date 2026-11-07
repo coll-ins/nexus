@@ -13,6 +13,7 @@ Attack checklist:
 - **Logic**: race conditions (e.g. two people booking the same seat), double payments, state skipped.
 - **Secrets**: keys in code, `.env` committed, debug mode on in production, verbose error leaks.
 - **Dependencies**: outdated or vulnerable packages.
+- **UI** (if frontend changed): missing labels, focus states, contrast under 4.5:1, touch targets under 44px, XSS via rendered user input.
 - **Failure**: what happens when the DB, network or payment API is down.
 
 Write a failing test for each real bug where you can.

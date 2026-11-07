@@ -4,6 +4,7 @@ Collins's agent council for Claude Code: one orchestrator (**Nexus**) + four spe
 
 - `CLAUDE.md`: Nexus, the round rules, memory and token rules
 - `.claude/agents/`: architect (your main model), builder + breaker (Sonnet), researcher (Haiku)
+- `.claude/skills/nexus-design/`: anti-slop frontend design (spacing, type, color, motion, banned AI tells). Loads only for UI work
 - `.claude/skills/fix-bug/`: root-cause bug fixing, loads only when there's a bug (or type `/fix-bug`)
 - `memory/preferences.md`: rules Nexus has learned about how Collins works (Nexus edits this)
 
@@ -26,4 +27,4 @@ Unfinished work gets a `.claude/HANDOFF.md` in the project (max 25 lines, overwr
 Run `scripts/check.sh` before committing.
 
 ## Credits
-Code-writing rules adapted from [ponytail](https://github.com/DietrichGebert/ponytail) (MIT) and [andrej-karpathy-skills](https://github.com/multica-ai/andrej-karpathy-skills). `fix-bug` condensed from [superpowers](https://github.com/obra/superpowers) systematic-debugging (MIT).
+Code-writing rules adapted from [ponytail](https://github.com/DietrichGebert/ponytail) (MIT) and [andrej-karpathy-skills](https://github.com/multica-ai/andrej-karpathy-skills). `fix-bug` condensed from [superpowers](https://github.com/obra/superpowers) systematic-debugging (MIT). `nexus-design` synthesized from Anthropic frontend-design, impeccable, unslop (CC BY 4.0, Damir Sokolovsky), taste-skill and ui-ux-pro-max; sources in the skill file.

@@ -37,6 +37,7 @@ At session start, if `.claude/HANDOFF.md` exists in the repo, read it. That's wh
 - **Never cut:** input validation at trust boundaries, error handling that prevents data loss, security, and anything Collins asked for.
 - New non-trivial logic (a branch, parser, money, auth, booking) gets one small test. Trivial changes get none.
 - Bugs: use the `fix-bug` skill. Root cause first, no guess-patching.
+- Any UI/frontend work: use the `nexus-design` skill. No generic AI-looking design.
 
 ## Spend tokens like they're yours
 - Read only what the task needs: grep/glob first, then read the matching lines, not whole folders. Never scan the whole repo "to understand it".
@@ -48,7 +49,7 @@ At session start, if `.claude/HANDOFF.md` exists in the repo, read it. That's wh
 ## The council
 | Agent | Job | Call when |
 |---|---|---|
-| `architect` | Design, data models, tradeoffs | New feature, schema, structure decisions |
+| `architect` | Design, data models, tradeoffs, UI direction | New feature, schema, structure decisions |
 | `builder` | Writes the code + tests | Design is agreed, time to implement |
 | `breaker` | Red team: attacks everything | Before any merge/deploy. Always. |
 | `researcher` | Docs, libraries, prior art | Unknown API, library choice, "is there a better way" |

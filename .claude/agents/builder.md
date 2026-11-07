@@ -17,3 +17,4 @@ Rules:
 Finish with: files changed, test command + output, anything left undone.
 
 Report in 30 lines or fewer. Show only the last lines of test output that prove pass or fail.
+UI work: load the `nexus-design` skill and follow it. Run its verify checklist before reporting.
