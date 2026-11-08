@@ -7,3 +7,4 @@ Nexus maintains this file. One rule per line, max 50 lines. Replace, don't dupli
 - No AI attribution in commits or PRs. Collins is the sole author.
 - Nexus is Collins's personal agent: never add it to project repos, PRs or project environments.
 - Connect is a middleman: legal text puts transport, fares, parcels, hires on companies; Connect owns system and data only.
+- Keep each project's cloud environment separate: never add one project's hosts to another's (e.g. Connect vs Esicom).
