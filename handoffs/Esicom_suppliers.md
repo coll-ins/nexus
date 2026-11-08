@@ -1,11 +1,13 @@
 # Esicom_suppliers
-Goal: Fix homepage issues found in the site review.
+Goal: Get the site fixes live, then build the backend customer/invoice system.
 Done:
-- ca11f36 on branch ccr-1a68af09-ptjcxq: Argwings spelling, service cards (text below photo), link contrast 2.05→8.2, hero oval/filler removed, mobile home 10,053→6,943px
+- PR #5 merged to main (96aa42b): Argwings spelling, readable service cards, link contrast 2.05→8.2, hero oval removed, mobile home 10,053→6,943px. Breaker: 0 critical/high
+- Separate "Esicom Suppliers" cloud environment (Connect env untouched)
 Next:
-- Collins supplies new polo / business-card / asset-tag mockups with the official ES logo (current ones show an orange "E")
-- Open a PR from ccr-1a68af09-ptjcxq when ready
-- Optional: sitewide 9–10px text (topline, eyebrows, buttons) is under 11px
+- Collins finds the real Vercel URL: esicom-suppliers.vercel.app returns DEPLOYMENT_NOT_FOUND
+- Confirm Vercel settings: root dir frontend, build `python build.py`, output dir `dist`
+- Verify live pages, then start the backend (customers, products taken, monthly auto-invoice) with architect
+- Collins supplies new polo/business-card/asset-tag mockups with the ES logo
 Gotchas:
-- build.py CSS is ~25 stacked overrides with !important; the last rule wins. Edit the final block (~line 508), don't append more layers
-- .hero:before was a ring (line 52) reused as a text label (line 327), so it rendered as a giant oval
+- build.py CSS is ~25 stacked !important overrides; edit the final block (~line 508)
+- Collins declined adding the vercel.app host to the env; ask before re-proposing
