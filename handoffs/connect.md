@@ -6,7 +6,7 @@ Done
 - CI e2e now runs on `vite preview` in CI (playwright.config.js).
 
 Next
-- Merge PR #7 once CI green (if not already).
+- PR #7 merged (600d0d0). Nothing since 07:38 UTC 8 Nov is live: Vercel rate limit.
 - Collins: Vercel says "Deployment rate limited, retry in 24 hours" (from 14:30 UTC 8 Nov). Disconnect Git on duplicate projects connect, connect-i251, connect-ahzg, backend; then Redeploy latest main on connect-zj9i.
 - After deploy: livecheck bundle has Vehicle3D chunk + check VITE_TOMTOM_KEY in BaseTileLayer chunk; do a real Paystack test payment from Chrome.
 - Collins: set Render FRONTEND_URL to https://connect-zj9i-gamma.vercel.app (currently a protected Vercel URL, caused the Vercel login wall).
