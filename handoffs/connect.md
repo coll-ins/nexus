@@ -1,22 +1,18 @@
-Goal: Connect live with payment/parcel/hire fixes + legal pages (PR #5 merged 8 Nov, 66143eb).
+Goal: get PR #6/#7 (3D bus, real-road divert, payment return, auto sign-in, splash) live on connect-zj9i.
 
 Done
-- Cash bookings kept until departure; closed/failed Paystack checkouts release (bookings/views.py _release_dead_digital_attempt).
-- Unmatched/wrong-amount charges -> UnappliedPayment refunds via process_unapplied cron.
-- Parcels: settle_stale_parcels (deliveries/services.py). Hire: paid cancel 48h+, company-cancel (charters/services.py).
-- Legal /legal/* as intermediary (frontend-react/src/legal/documents.js); signup needs accept_terms (users 0008).
-- CI green on PR #5; breaker x4 clean. Live check: scratchpad livecheck.sh (signup probe + bundle grep).
+- PR #6 merged (9493440): 3D bus, divert on real roads, bus snapped to reroute line, traffic within 1 km, payment callback from trusted Origin (backend/connect/frontend.py), login returns to `from`.
+- PR #7 (claude/3d-bus-model-fixes-fx3h0n): auto sign-in on /login, one-press map exit (backToOverview state), splash back (signed-in only), splash-mobile.jpg 1080x2340, cash PIN fullstack test, unknown stored role ignored.
+- CI e2e now runs on `vite preview` in CI (playwright.config.js).
 
 Next
-- Collins: delete Vercel project "backend" (team collins2; fails every PR, not the live site).
-- Collins: set VITE_LEGAL_ENTITY, VITE_SUPPORT_EMAIL, VITE_SUPPORT_PHONE in Vercel project connect-zj9i, redeploy.
-- Collins: advocate review of documents.js; ODPC registration; CA courier licence check for parcels.
-- Test mode on live: close card checkout then pick cash; pay old checkout tab, refund after cron.
-- Earlier: remove ADMIN_PASSWORD on Render; GitHub var CONNECT_API_URL + secret CRON_SECRET.
-- LOW: hire driver check misses trips leaving just before hire start; company can cancel a started hire.
+- Merge PR #7 once CI green (if not already).
+- Collins: Vercel says "Deployment rate limited, retry in 24 hours" (from 14:30 UTC 8 Nov). Disconnect Git on duplicate projects connect, connect-i251, connect-ahzg, backend; then Redeploy latest main on connect-zj9i.
+- After deploy: livecheck bundle has Vehicle3D chunk + check VITE_TOMTOM_KEY in BaseTileLayer chunk; do a real Paystack test payment from Chrome.
+- Collins: set Render FRONTEND_URL to https://connect-zj9i-gamma.vercel.app (currently a protected Vercel URL, caused the Vercel login wall).
+- LOW open: traffic cache per own_driver_id, no scheduled LocationPing purge (drivers/traffic.py).
 
 Gotchas
-- Live: frontend connect-zj9i-gamma.vercel.app, API connect-lhqy.onrender.com (vercel.json proxies /api).
-- Tests: DEBUG=True ADMIN_SIGNUP_CODE=x PAYSTACK_SECRET_KEY=sk_test_dummy; skip psycopg2 on py3.13.
-- Cloud Playwright: executablePath /opt/pw-browsers/chromium, channel undefined.
-- PR bodies get a Claude Code footer appended by the platform; strip it on GitHub if unwanted.
+- Live frontend connect-zj9i-gamma.vercel.app, API connect-lhqy.onrender.com. Paystack/OSRM/tiles hosts blocked in cloud sandbox.
+- Each push builds 5 Vercel projects: batch pushes.
+- Cloud Playwright: executablePath /opt/pw-browsers/chromium, channel undefined; fullstack needs PYTHON=venv python.
