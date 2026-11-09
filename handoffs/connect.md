@@ -1,21 +1,21 @@
-Goal: ship smooth bus turning, stuck-bus traffic, cash PIN on boarding, and get the bank-return fix live on connect-zj9i.
+Goal: launch-ready passenger flow: signup, landing, M-Pesa/card only, seat picking, change cut-off.
 
 Done
-- Branch ccr-2e8b4e7a-g5lfp4 (pushed, no PR): includes claude/driver-map-bus-model-cre4ms reroute commits + e210fc7 + be96b85.
-- Bus turns via rear/front lookahead heading (useRoadDriverPosition.js bodyHeading) + eased yaw in Vehicle3D.jsx.
-- Own bus standing still mid-route = heavy traffic (drivers/traffic.py); "bus stuck in heavy traffic" line on passenger map.
-- Cash: PIN shown before paying; cash bookings survive departure; driver confirms cash until trip ends (bookings/services.py cash_due_on_board, cash_still_payable; process_noshows exclude).
-- Bus drives like a vehicle (601d11c): eased speed, brake lights, indicators, lean, shadow.
-- d6d2000 + latest: driver phone hidden from unpaid cash, cash cutoff 12h, departure sweep no-shows first stage only (stale trips settle all), company-less driver login needs unambiguous phone.
-- Breaker + security review: no open HIGH. Tests: 960 backend OK, 10 node unit OK, build OK.
+- Branch claude/connect-signup-landing-2b5as4 pushed, no PR (last 19f8f2f). 994 backend tests OK, lint/build OK.
+- Landing page at / (frontend-react/src/pages/landing), split-name signup + password checklist (users/validators.py).
+- Receipts show driver name/bus/phone on paid trips (bookings/views.py passenger_records).
+- Cash OFF at launch: settings CASH_ENABLED=false; later 30 trips, 95%+, 60-day account (users/models.py can_pay_cash).
+- PIN check records cash on board (verify_boarding pays_cash_now); cash no-shows counted (services.py settle_unboarded_no_shows).
+- 15-min change cut-off: free cancel/change bus before, 50% after (services.py before_change_cutoff; refund policy text updated, TERMS_VERSION 2026-11-09).
+- Seats: SeatAssignment model + migrations 0026/0027, bookings/seats.py layouts (HiAce 14, 29/33 minibus, 51 coach), components/SeatMap.jsx in passenger booking, driver Passengers tab, operator Seat map (block/unblock).
+- Breaker run on cash and seats; all HIGH fixed.
 
 Next
-- Open PR for ccr-2e8b4e7a-g5lfp4 when Collins asks, then merge.
-- Collins: after Vercel limit lifts (~14:30 UTC 9 Nov) redeploy main on connect-zj9i; live build is still 07:38 UTC, so bank return goes to login until then.
-- Collins: set Render FRONTEND_URL to https://connect-zj9i-gamma.vercel.app.
-- Open MEDIUM: company-less driver login on a phone shared across companies is locked out; fix = set company on that user in admin.
+- Ask Collins what is left from his list, then open a PR for this branch when he says.
+- Optional: Trip.vehicle_type so operators pick the exact body when capacity is ambiguous (layout is by capacity now).
+- Older branch ccr-2e8b4e7a-g5lfp4 still needs its PR; Render FRONTEND_URL=https://connect-zj9i-gamma.vercel.app.
 
 Gotchas
-- Simulated GPS never paints traffic (drivers/views.py:520); test traffic with a real phone.
-- Backend tests: venv without psycopg2, env from .github/workflows/ci.yml; run serially (--parallel crashes pickling tracebacks).
+- Backend tests: venv without psycopg2, env vars from .github/workflows/ci.yml, run serially.
+- Old cash tests need @override_settings(CASH_ENABLED=True, CASH_MIN_TRIPS=1, CASH_MIN_ACCOUNT_DAYS=0).
 - Each push builds 5 Vercel projects: batch pushes.
