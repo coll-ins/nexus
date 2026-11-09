@@ -9,3 +9,4 @@ Nexus maintains this file. One rule per line, max 50 lines. Replace, don't dupli
 - Connect is a middleman: legal text puts transport, fares, parcels, hires on companies; Connect owns system and data only.
 - Keep each project's cloud environment separate: never add one project's hosts to another's (e.g. Connect vs Esicom).
 - Connect performance target: every page and API call responds in under 1 second.
+- Domain data (bus layouts, seat counts, specs) must come from cited real sources, never guessed.
