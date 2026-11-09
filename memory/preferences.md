@@ -12,3 +12,4 @@ Nexus maintains this file. One rule per line, max 50 lines. Replace, don't dupli
 - Domain data (bus layouts, seat counts, specs) must come from cited real sources, never guessed.
 - Validate every user input strictly: callable KE phones (07/01/+254), real places, no gibberish text.
 - Forms assume nothing: every field shows its format, an example, and a plain reason when rejected.
+- Design refs: Apple motion, Duolingo onboarding, Linear UI, Pentagram type, Muji minimal, Airbnb filters, Aesop art, Notion dashboards, Stripe landing, Framer micro-interactions.
