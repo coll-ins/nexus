@@ -7,6 +7,7 @@ Done
 - Frontend: components/Fleet.jsx (fleet page under Buses & seats, TripBusPicker), SeatMap ticket header, passenger "Choose for me".
 - 1002 backend tests OK, lint/build OK, seat maps screenshot-checked at 390px.
 - e2e 70/70 green: stale auth/booking tests updated; SeatMap moved into booking modal's scroll area (Book stays on screen); signup error no longer doubled.
+- Breaker fix b2fadb1: rejected incident refund now locks trip, re-checks capacity, re-assigns seats (views.py resolve_incident_booking).
 
 Next
 - Run breaker on this branch (bookings + capacity), fix HIGHs, then PR when Collins says.
