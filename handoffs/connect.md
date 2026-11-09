@@ -14,6 +14,6 @@ Next
 - 36-seat BasiGo E9: no published plan; added as Other until Collins sends a seat photo.
 
 Gotchas
-- role-screens.spec.js:146 (driver live-location) is flaky, ~1 in 6, independent of this branch.
+- role-screens.spec.js:146 flake fixed on branch claude/adoring-feynman-g2pxcb (3D bus off on software WebGL).
 - WebFetch DNS cache lags env host changes; use curl.
 - Fullstack Playwright spec updated but not run (needs full stack).
