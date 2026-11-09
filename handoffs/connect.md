@@ -6,6 +6,7 @@ Done
 - companies/fleet.py lock_bus used by create_trip, PATCH trips/<id>/bus/, schedules, trip_generation.
 - Frontend: components/Fleet.jsx (fleet page under Buses & seats, TripBusPicker), SeatMap ticket header, passenger "Choose for me".
 - 1002 backend tests OK, lint/build OK, seat maps screenshot-checked at 390px.
+- e2e 70/70 green: stale auth/booking tests updated; SeatMap moved into booking modal's scroll area (Book stays on screen); signup error no longer doubled.
 
 Next
 - Run breaker on this branch (bookings + capacity), fix HIGHs, then PR when Collins says.
@@ -13,6 +14,6 @@ Next
 - 36-seat BasiGo E9: no published plan; added as Other until Collins sends a seat photo.
 
 Gotchas
-- 5 e2e tests already failing before this work (auth-navigation x3, passenger-cash-booking x2).
+- role-screens.spec.js:146 (driver live-location) is flaky, ~1 in 6, independent of this branch.
 - WebFetch DNS cache lags env host changes; use curl.
 - Fullstack Playwright spec updated but not run (needs full stack).
