@@ -15,5 +15,5 @@ Next
 Gotchas
 - dl.google.com blocked in cloud: the AAB cannot be built here.
 - packageId ke.connectmatatu.app is permanent once uploaded.
-- Vercel project `backend` fails on every deploy; unused (API is Render via vercel.json).
+- Vercel project `backend` failed on the PR #11 preview; looks unused (API is Render via vercel.json).
 - e2e role-screens.spec.js:146 flaky with 2 workers; passes with 1.
