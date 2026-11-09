@@ -1,20 +1,17 @@
-Goal: every trip on a real bus (type + seat cap), real seat plans, random auto-pick, bus/driver on seat page.
+Goal: ship PR coll-ins/connect#10 (landing, real bus seat plans, strict input validation) to the live site.
 
 Done
-- Branch claude/hopeful-ritchie-42re0j pushed (dda6a81), contains 19f8f2f seat work. No PR yet.
-- Bus.vehicle_type + seats.py VEHICLES (HiAce 14 Toyota; NMR85 27, FTR90 51, FVR34S 67 ACMG; NQR 33 approximate). Trip.bus/TripSchedule.bus nullable FKs, capacity forced from bus (models.py save).
-- companies/fleet.py lock_bus used by create_trip, PATCH trips/<id>/bus/, schedules, trip_generation.
-- Frontend: components/Fleet.jsx (fleet page under Buses & seats, TripBusPicker), SeatMap ticket header, passenger "Choose for me".
-- 1002 backend tests OK, lint/build OK, seat maps screenshot-checked at 390px.
-- e2e 70/70 green: stale auth/booking tests updated; SeatMap moved into booking modal's scroll area (Book stays on screen); signup error no longer doubled.
-- Breaker fix b2fadb1: rejected incident refund now locks trip, re-checks capacity, re-assigns seats (views.py resolve_incident_booking).
+- Branch claude/hopeful-ritchie-42re0j at e2cb6b6, PR #10 open. Backend 1017 OK, e2e 78/78 (1 worker), fullstack 11/11 local.
+- Inputs validated server-side (backend/connect/validation.py) + forms mirror it (frontend-react/src/utils/inputRules.js, FieldNote, ValidatedInput).
+- Plates KXX 000X (buses/serializers.py), walk-in/M-PESA/signup phone holes closed.
+- Landing hero = app's 3D matatu (pages/landing/HeroBus3D.jsx). All 82 routes smoke-tested (tests/e2e/all-routes.spec.js).
+- Breaker: no critical/high; mediums fixed in 620d4e6. Seat plans 27/51/67 match ACMG drawings; 33 has none published.
 
 Next
-- Run breaker on this branch (bookings + capacity), fix HIGHs, then PR when Collins says.
-- Old bus-less trips: operators must assign a bus (no backfill on purpose).
-- 36-seat BasiGo E9: no published plan; added as Other until Collins sends a seat photo.
+- When CI on e2cb6b6 is green: merge PR #10, then check https://connect-zj9i-gamma.vercel.app serves the landing and Render /api/health/ is 200 (migrations run on start).
+- Collins: send a photo of the real 33-seater seat plan to verify NQR81 layout.
 
 Gotchas
-- role-screens.spec.js:146 flake fixed on branch claude/adoring-feynman-g2pxcb (3D bus off on software WebGL).
-- WebFetch DNS cache lags env host changes; use curl.
-- Fullstack Playwright spec updated but not run (needs full stack).
+- CI backend job had been failing on main at `pyflakes users/` (fixed here), so tests never ran in CI.
+- role-screens.spec.js:146 flaky with 2 workers (another session fixing on claude/adoring-feynman-g2pxcb).
+- Blob log host and Actions log URLs are blocked here; reproduce CI steps locally.
