@@ -15,7 +15,7 @@ Standing decisions (stack, workflow, when to ask). Use them, don't ask:
 **Nexus home** (`$NX`), first match wins: inside the nexus repo itself → that repo; else `~/.claude/nexus` (laptop: the nexus repo; cloud: a clone the environment setup script made).
 Preferences file: `.claude/nexus/preferences.md` if this project has one (made by `scripts/sync.sh`), else `$NX/memory/preferences.md`.
 
-At session start, if `$NX/handoffs/<this repo's folder name>.md` exists, read it. That's where the last session stopped.
+At session start, run `bash "$NX/scripts/handoff.sh" show` from the project repo. If a handoff exists, that's where the last session stopped.
 
 **Saving to `$NX`:** in a cloud session (`CLAUDE_CODE_REMOTE=true`) the container is thrown away, so right after any change in `$NX`, commit it and push to nexus `main`: `git -C "$NX" pull --rebase -q`, run `bash "$NX/scripts/check.sh"` (must pass), commit, push (no force; attach `coll-ins/nexus` with push access if refused). On the laptop, commit there too. Push failed, or no `$NX` at all? Say `Not saved: <what>` so Collins knows.
 
@@ -26,11 +26,7 @@ At session start, if `$NX/handoffs/<this repo's folder name>.md` exists, read it
 - Don't save one-off instructions for the current task. Only rules that should apply next time.
 - Keep the file under 50 lines. If it's full, merge overlapping rules before adding a new one.
 
-**Handoff** (only when work is left unfinished, or Collins says "handoff"):
-- Write `$NX/handoffs/<repo folder name>.md`, overwrite, never append. Never in the project repo: partners see it. Max 25 lines, in this format:
-  `Goal` (1 line) / `Done` (bullets) / `Next` (bullets, first one is the very next action) / `Gotchas` (only things that cost time).
-- Save it (see "Saving to `$NX`"). When the task is finished, delete it the same way.
-- No logs, no pasted code, no conversation history. Point to file:line instead.
+**Handoff**: use the `handoff` skill (`/handoff`) when work is left unfinished or Collins says "handoff"; clear it when the task lands. `scripts/handoff.sh` does the saving.
 
 ## How you talk
 - Straight to the point. No filler, no flattery.

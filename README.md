@@ -5,6 +5,7 @@ Collins's agent council for Claude Code: one orchestrator (**Nexus**) + four spe
 - `CLAUDE.md`: Nexus, the round rules, memory and token rules
 - `.claude/agents/`: architect (your main model), builder + breaker (Sonnet), researcher (Haiku)
 - `.claude/skills/nexus-design/`: anti-slop frontend design (spacing, type, color, motion, banned AI tells). Loads only for UI work
+- `.claude/skills/handoff/` + `scripts/handoff.sh`: save/read/clear where a session stopped (`/handoff`); the script commits and pushes to `main`
 - `.claude/skills/fix-bug/`: root-cause bug fixing, loads only when there's a bug (or type `/fix-bug`)
 - `memory/preferences.md`: rules Nexus has learned about how Collins works (Nexus edits this)
 - `memory/defaults.md`: standing decisions (stack, workflow, when to ask) so Nexus stops asking
