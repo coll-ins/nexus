@@ -5,7 +5,7 @@ Done
 - Nexus: graphify 0.9.105 installed by scripts/install.sh (no LLM), rule in CLAUDE.md.
 
 Next
-- Collins: merge #13 (also adds the landing Install button), check Kisumu on the live map, install from phone.
+- #13 merged and live (af89825). Collins: install from phone, check Nairobi to Kisumu stages on the live map.
 - Decide default parcel prices (routes with no rates show no parcels): needs a real price source.
 - Verify company route lists: researcher couldn't confirm City Shuttle routes or Super Metro Kisumu/Kakamega (news sites DNS-blocked in cloud). "CBD to Mfangano" is a 0.3 km CBD hop: likely bogus.
 - Schedules for return routes; android/README.md Play steps; phone OTP; paginate get_all_bookings.
