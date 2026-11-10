@@ -27,6 +27,7 @@ dups=$(grep '^- ' memory/preferences.md | sort | uniq -d)
 words=$(cat CLAUDE.md | wc -w)
 echo "always-loaded CLAUDE.md: $words words"
 [ "$words" -le 1200 ] || err "CLAUDE.md over 1200 words: trim it"
+export NEXUS_NO_GRAPHIFY=1  # install tests must not download graphify
 tmp=$(mktemp -d); trap 'rm -rf "$tmp"' EXIT
 if bash scripts/sync.sh "$tmp" >/dev/null; then
   for imp in $(sed -n 's/^@//p' "$tmp/.claude/CLAUDE.md"); do

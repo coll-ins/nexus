@@ -8,6 +8,7 @@ Collins's agent council for Claude Code: one orchestrator (**Nexus**) + four spe
 - `.claude/skills/fix-bug/`: root-cause bug fixing, loads only when there's a bug (or type `/fix-bug`)
 - `memory/preferences.md`: rules Nexus has learned about how Collins works (Nexus edits this)
 - `memory/defaults.md`: standing decisions (stack, workflow, when to ask) so Nexus stops asking
+- `graphify` (installed by `install.sh`, pinned, own venv): local code map with no LLM calls, so Nexus reads fewer files
 - `.claude/hooks/detect_learning.py`: flags "always / never / from now on" messages so Nexus saves them
 
 ## Laptop: every repo, one command

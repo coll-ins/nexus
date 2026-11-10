@@ -43,4 +43,15 @@ done
 S="$CLAUDE_HOME/settings.json"
 [ "$(readlink "$S" || true)" != "$NEXUS/.claude/settings.json" ] || rm "$S"  # undo older installs
 python3 "$NEXUS/scripts/merge-attribution.py" "$S" "$NEXUS/.claude/settings.json"
+# graphify: local code map (tree-sitter, no LLM calls) so Nexus reads less.
+# Pinned and in its own venv: an unpinned package auto-installed every session
+# is a supply-chain risk. Optional: a failure never stops the install.
+G="$HOME/.local/share/nexus-graphify"
+if [ -z "${NEXUS_NO_GRAPHIFY:-}" ] && [ ! -x "$G/bin/graphify" ]; then
+  { python3 -m venv "$G" && "$G/bin/pip" install -q graphifyy==0.9.105; } >/dev/null 2>&1 \
+    || echo "graphify not installed (optional)"
+fi
+if [ -x "$G/bin/graphify" ]; then
+  mkdir -p "$HOME/.local/bin" && ln -sfn "$G/bin/graphify" "$HOME/.local/bin/graphify" && echo "linked graphify"
+fi
 echo "Nexus installed. Restart Claude Code."
