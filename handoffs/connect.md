@@ -1,16 +1,15 @@
-Goal: finish Connect (clean planner, real routes, automatic parcels) and ship to Play.
+Goal: live demo of Connect on City Shuttle CBD to Kamangu with real GPS and push alerts.
 
 Done
-- PR coll-ins/connect#13: planner hides removed stages (RoutePlanner.jsx pins filter), parcel wizard From/To across companies (DeliveryWizard.jsx), long-distance town stages (migration 0020). Backend 1034 OK, e2e 83/83, breaker: no critical/high.
-- Nexus: graphify 0.9.105 installed by scripts/install.sh (no LLM), rule in CLAUDE.md.
+- PR coll-ins/connect#19: trips auto-board/depart from GPS (backend/bookings/departure.py), Web Push alerts (backend/notifications/push.py, frontend-react/src/utils/push.js, public/sw.js), Kamangu route (companies/migrations/0021). Backend 1042 OK, e2e 87/87, 2 breakers fixed.
 
 Next
-- #13 merged and live (af89825). Collins: install from phone, check Nairobi to Kisumu stages on the live map.
-- Decide default parcel prices (routes with no rates show no parcels): needs a real price source.
-- Verify company route lists: researcher couldn't confirm City Shuttle routes or Super Metro Kisumu/Kakamega (news sites DNS-blocked in cloud). "CBD to Mfangano" is a 0.3 km CBD hop: likely bogus.
-- Schedules for return routes; android/README.md Play steps; phone OTP; paginate get_all_bookings.
+- Collins: merge #19, wait for Render + Vercel deploy, create a Kamangu trip with driver + bus departing ~20 min ahead.
+- Set the real Kamangu fare (KES 150 is provisional) in the planner.
+- Rebuild APK with bubblewrap (twa-manifest enableNotifications now true).
+- Verify push on a real phone; traffic needs 3 companies' buses, so it shows nothing with 1 bus.
 
 Gotchas
-- Photon resets connections now and then: retry. OSRM works.
-- Tests need env vars: copy the backend job env from .github/workflows (ADMIN_SIGNUP_CODE etc).
-- psycopg2-binary in requirements fails on Python 3.13: install >=2.9.10.
+- pywebpush won't build (http-ece); push is hand-rolled on cryptography, tested on the RFC 8291 vector.
+- Overpass is blocked from cloud; Nominatim/Photon/OSRM work.
+- Tests need env vars from .github/workflows/ci.yml.
