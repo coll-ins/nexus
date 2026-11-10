@@ -1,22 +1,16 @@
-Goal: ship Connect to Google Play as a TWA wrapping https://connect-zj9i-gamma.vercel.app.
+Goal: finish Connect (clean planner, real routes, automatic parcels) and ship to Play.
 
 Done
-- PR coll-ins/connect#11 merged (980e3ae), live on Vercel + Render since 19:19 9 Nov, verified in browser.
-- Installed app opens on Welcome (src/pages/landing/Welcome.jsx) → Get started → /login with Back + Sign in/Create account switch (src/pages/auth/AuthTopBar.jsx).
-- PWA: public/manifest.webmanifest, sw.js (offline page only), icon-512-maskable.png. android/ has twa-manifest.json + README (publish steps).
-- Play blockers fixed: account deletion API (users/views.py delete_account) + Profile UI + /legal/delete-account.
-- 4 breakers run; all CRITICAL/HIGH/MEDIUM fixed. Backend 1025 OK, e2e 81/81 (prod build), fullstack 11/11.
+- PR coll-ins/connect#13: planner hides removed stages (RoutePlanner.jsx pins filter), parcel wizard From/To across companies (DeliveryWizard.jsx), long-distance town stages (migration 0020). Backend 1034 OK, e2e 83/83, breaker: no critical/high.
+- Nexus: graphify 0.9.105 installed by scripts/install.sh (no LLM), rule in CLAUDE.md.
 
 Next
-- Routes/stages/return routes are live (coll-ins/connect#12, cbd6c03). Collins: eyeball CBD to Ngong on the live map, set real fares on new routes, add schedules for return routes.
-- Rebuild route data: tools/build_route_network.py (needs OSRM + Photon hosts, already allowed in the Connect env).
-- Collins (laptop): android/README.md → bubblewrap init/build, Play closed test (12 testers × 14 days).
-- After first upload: put Play app-signing SHA-256 in public/.well-known/assetlinks.json (template android/assetlinks.template.json).
-- Open: phone OTP at signup (fake accounts), paginate bookings/views.py get_all_bookings.
+- Collins: merge #13, check Nairobi to Kisumu on the live map.
+- Decide default parcel prices (routes with no rates show no parcels): needs a real price source.
+- Verify company route lists: researcher couldn't confirm City Shuttle routes or Super Metro Kisumu/Kakamega (news sites DNS-blocked in cloud). "CBD to Mfangano" is a 0.3 km CBD hop: likely bogus.
+- Schedules for return routes; android/README.md Play steps; phone OTP; paginate get_all_bookings.
 
 Gotchas
-- Overpass and Nominatim reset connections from cloud; Photon works for OSM stop lookups.
-- dl.google.com blocked in cloud: the AAB cannot be built here.
-- packageId ke.connectmatatu.app is permanent once uploaded.
-- Vercel project `backend` failed on the PR #11 preview; looks unused (API is Render via vercel.json).
-- e2e role-screens.spec.js:146 flaky with 2 workers; passes with 1.
+- Photon resets connections now and then: retry. OSRM works.
+- Tests need env vars: copy the backend job env from .github/workflows (ADMIN_SIGNUP_CODE etc).
+- psycopg2-binary in requirements fails on Python 3.13: install >=2.9.10.
