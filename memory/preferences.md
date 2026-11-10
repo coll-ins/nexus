@@ -14,3 +14,4 @@ Nexus maintains this file. One rule per line, max 50 lines. Replace, don't dupli
 - Forms assume nothing: every field shows its format, an example, and a plain reason when rejected.
 - Design refs now: Apple motion, Duolingo onboarding only. Parked: Linear, Pentagram, Muji, Airbnb, Aesop, Notion, Stripe, Framer.
 - Back buttons: labelled, top-left, 44px+, clearly visible; phone Back steps back inside flows.
+- A fix shown on one example (e.g. CBD to Ngong) applies to every route or item of that kind.
