@@ -17,3 +17,4 @@ Nexus maintains this file. One rule per line, max 50 lines. Replace, don't dupli
 - A fix shown on one example (e.g. CBD to Ngong) applies to every route or item of that kind.
 - Connect: automate by default; avoid steps that need staff to act by hand.
 - Removed or deactivated items vanish from maps and lists; restore lives in a collapsed list.
+- User actions: one tap where possible, no instruction lists, browser-neutral; never make users feel walked through steps.
