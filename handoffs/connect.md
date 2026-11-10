@@ -8,7 +8,7 @@ Done
 - 4 breakers run; all CRITICAL/HIGH/MEDIUM fixed. Backend 1025 OK, e2e 81/81 (prod build), fullstack 11/11.
 
 Next
-- Merge branch claude/happy-thompson-hqsn08 (475451d): real routes/stages + return routes; migration companies/0019 runs on deploy. Then eyeball CBD to Ngong on the live map.
+- Routes/stages/return routes are live (coll-ins/connect#12, cbd6c03). Collins: eyeball CBD to Ngong on the live map, set real fares on new routes, add schedules for return routes.
 - Rebuild route data: tools/build_route_network.py (needs OSRM + Photon hosts, already allowed in the Connect env).
 - Collins (laptop): android/README.md → bubblewrap init/build, Play closed test (12 testers × 14 days).
 - After first upload: put Play app-signing SHA-256 in public/.well-known/assetlinks.json (template android/assetlinks.template.json).
