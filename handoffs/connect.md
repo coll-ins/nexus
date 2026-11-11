@@ -1,16 +1,16 @@
-Goal: live demo of Connect on City Shuttle CBD to Kamangu with real GPS and push alerts.
+Goal: finish Connect (clean planner, real routes, automatic parcels) and ship to Play.
 
 Done
-- PR coll-ins/connect#19 merged and live (d9b759a): GPS starts, departs and ends trips (backend/bookings/departure.py), Web Push (backend/notifications/push.py), GPS accuracy/jump filter (backend/drivers/views.py _imprecise_fix), Kamangu routes 89/90 live.
+- PR #20 merged + live (4424e0c): trips/templates/admin pick vehicle type (33 default), driver's bus found or made from plate (companies/fleet.py driver_bus); "Seat booked" push (bookings/views.py _push_booked); 400 not 500 on non-object JSON (connect/parsers.py), bad ids, trips list N+1.
+- Breakers (backend, frontend 360px all roles, deploy/push): all critical/high fixed; backend 1063 OK, fullstack 11/11, CI green.
+- Verified live: APK cert = assetlinks fingerprint; Render runs daphne (websockets OK).
 
 Next
-- Collins: run the demo; report whether push arrives on a real phone.
-- Set the real Kamangu fare (KES 150 provisional).
-- Rebuild APK with bubblewrap (twa-manifest enableNotifications true).
-- Background GPS needs a native wrapper (Capacitor + foreground service): web/TWA stops GPS when screen is off.
-- Boarding still needs the driver to verify each PIN, or the rider becomes a no-show at auto-end.
+- Collins on demo phone: tap "turn on bus alerts" on passenger dashboard once; book a seat -> "Seat booked" push.
+- Drivers whose bus number is a fleet no. (not plate) need the bus added once under Buses & seats.
+- Decide default parcel prices; verify City Shuttle / Super Metro routes; return-route schedules; phone OTP; paginate get_all_bookings.
 
 Gotchas
-- pywebpush won't build (http-ece); push is hand-rolled on cryptography, tested on the RFC 8291 vector.
-- GitHub Actions doesn't report on PRs; run tests locally (env vars from ci.yml).
-- Overpass blocked from cloud; Nominatim/Photon/OSRM work.
+- Tests need env from .github/workflows/ci.yml backend job (+NUM_PROXIES=1, BEHIND_TLS_PROXY=True for some probes).
+- Fullstack Playwright locally: channel undefined + executablePath /opt/pw-browsers/chromium.
+- Run redis-server outside the repo or it drops dump.rdb into backend/.
