@@ -23,3 +23,4 @@ Nexus maintains this file. One rule per line, max 50 lines. Replace, don't dupli
 - Finished work: merge the PR to main and ship live myself; never ask Collins to merge.
 - Esicom website shows no prices; customers request quotes so owner can negotiate. Remove website catalogue later, when building.
 - Esicom backend stack: Django + Postgres API, React + Tailwind dashboard (Collins's explicit choice).
+- Client systems: ask a full questionnaire first; never assume a detail. Build only after answers.
