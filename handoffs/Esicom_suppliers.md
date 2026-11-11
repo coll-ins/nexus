@@ -7,8 +7,8 @@ Done:
 - Tests: backend 147, dashboard 25, breakers run, all critical/high fixed.
 Next:
 - 12 Nov 08:15 Nairobi: Vercel deploy quota resets; deploy main to production (scheduled task trig_012DDRUbdoPcDqh4QyeFYRwg) and verify /api/ and /ledger-api/ rewrites.
-- Email: Render free blocks SMTP. Waiting on Collins: paid instance vs Gmail API vs Brevo.
-- Database: Render Postgres esicom-db expires 20 Nov 2026; move to Neon before then.
+- Email: Gmail API backend merged (PR #8). Waiting on Collins to add GMAIL_CLIENT_ID/SECRET/REFRESH_TOKEN in Render (README steps). Then test with Forgot password.
+- Database: Collins adds NEON_DATABASE_URL in Render; start runs move_database; then set DATABASE_URL to Neon, remove NEON_DATABASE_URL (I can swap via Render API without printing). Deadline 20 Nov.
 - Old Render service esicom-suppliers still running (suspend refused by classifier); Collins can suspend.
 Gotchas:
 - Vercel :path* does not match trailing slash; use :path(.*).
