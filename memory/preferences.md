@@ -25,3 +25,4 @@ Nexus maintains this file. One rule per line, max 50 lines. Replace, don't dupli
 - Esicom backend stack: Django + Postgres API, React + Tailwind dashboard (Collins's explicit choice).
 - Client systems: ask a full questionnaire first; never assume a detail. Build only after answers.
 - Questions to Collins: plain words, no jargon, one decision each, few per round.
+- Internal tools for a client match the client's public site: same brand, photos, backgrounds.
