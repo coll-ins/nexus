@@ -21,3 +21,5 @@ Nexus maintains this file. One rule per line, max 50 lines. Replace, don't dupli
 - Removed or deactivated items vanish from maps and lists; restore lives in a collapsed list.
 - User actions: one tap where possible, no instruction lists, browser-neutral; never make users feel walked through steps.
 - Finished work: merge the PR to main and ship live myself; never ask Collins to merge.
+- Esicom website shows no prices; customers request quotes so owner can negotiate. Remove website catalogue later, when building.
+- Esicom backend stack: Django + Postgres API, React + Tailwind dashboard (Collins's explicit choice).
