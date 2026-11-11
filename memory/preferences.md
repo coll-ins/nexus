@@ -27,3 +27,4 @@ Nexus maintains this file. One rule per line, max 50 lines. Replace, don't dupli
 - Questions to Collins: plain words, no jargon, one decision each, few per round.
 - Internal tools for a client match the client's public site: same brand, photos, backgrounds.
 - Client documents: take logo, phone and email from the client's own website, not from mockups.
+- Before sending a design, view the render and check that no text overlaps a photo.
