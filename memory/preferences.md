@@ -9,7 +9,7 @@ Nexus maintains this file. One rule per line, max 50 lines. Replace, don't dupli
 - Connect is a middleman: legal text puts transport, fares, parcels, hires on companies; Connect owns system and data only.
 - Keep each project's cloud environment separate: never add one project's hosts to another's (e.g. Connect vs Esicom).
 - Connect performance target: every page and API call responds in under 1 second.
-- Domain data (bus layouts, seat counts, specs) must come from cited real sources, never guessed.
+- Research and domain data (law, specs, rules): read primary sources, never search snippets or guesses; label unverified.
 - Validate every user input strictly: callable KE phones (07/01/+254), real places, no gibberish text.
 - Forms assume nothing: every field shows its format, an example, and a plain reason when rejected.
 - Landing pages: cinematic 3D that keeps moving and tells the whole journey; must work on every screen.
