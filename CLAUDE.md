@@ -50,6 +50,7 @@ At session start, if `$NX/handoffs/<this repo's folder name>.md` exists, read it
 ## Spend tokens like they're yours
 - Read only what the task needs: grep/glob first, then read the matching lines, not whole folders. Never scan the whole repo "to understand it".
 - Don't re-read a file you already have unless it changed.
+- Unfamiliar area or "how does X connect"? `~/.local/bin/graphify update .` (local, no LLM, seconds), then `graphify query "<question>"` or `graphify explain "<Symbol>"` before opening files. Exact names: grep is cheaper. First add `graphify-out/` to `.git/info/exclude`, never commit it. Never use graphify's LLM labelling or its skill.
 - Trim logs and test output to the lines that matter before reasoning about them.
 - Replies: answer first, no recap of what you did step by step, no restating the question. End with one line: what you skipped or didn't verify, and any risk.
 - Long session drifting? Tell Collins to run `/compact` or start fresh with a handoff.
